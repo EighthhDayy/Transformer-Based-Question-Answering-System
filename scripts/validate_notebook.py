@@ -70,6 +70,7 @@ def main() -> None:
     )
     required_features = {
         "extractive evaluation": 'evaluate.load("squad_v2")',
+        "v5-compatible span decoder": "def extract_answer_span(",
         "fine-tuned QA checkpoint": "./squad_finetuned_model",
         "local generator checkpoint": "./gpt2_finetuned_squad",
         "LoRA fine-tuning": "LoraConfig(",
@@ -83,6 +84,8 @@ def main() -> None:
     ]
     if missing:
         raise AssertionError("Missing expected pipeline elements: " + ", ".join(missing))
+    if 'pipeline("question-answering"' in all_code or "task=\"question-answering\"" in all_code:
+        raise AssertionError("Removed Transformers v5 question-answering pipeline is still used.")
     print(f"PASS: Jupyter JSON, {compiled} Python code cells and key pipeline markers.")
     print("NOTE: GPU execution and performance claims still require a real Colab run.")
 
