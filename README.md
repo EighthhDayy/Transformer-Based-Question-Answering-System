@@ -1,138 +1,216 @@
-# Transformer-Based-Question-Answering-System
-1.Project Overview
+<div align="center">
+  <img src="assets/qa-hero.svg" alt="Transformer-Based Question Answering — extractive and generative QA" width="100%" />
+
+  <br />
+
+  <p><strong>A two-stage Transformer NLP project for answer extraction, conditioned text generation, and model experimentation.</strong></p>
+
+  <p>
+    <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+    <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch" />
+    <img src="https://img.shields.io/badge/Hugging%20Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="Hugging Face" />
+    <img src="https://img.shields.io/badge/Gradio-F97316?style=for-the-badge&logo=gradio&logoColor=white" alt="Gradio" />
+    <img src="https://img.shields.io/badge/LoRA%20%2F%20PEFT-7771D6?style=for-the-badge" alt="LoRA / PEFT" />
+  </p>
+
+  <p>
+    <a href="https://colab.research.google.com/github/EighthhDayy/Transformer-Based-Question-Answering-System/blob/main/Transformer_Based_Question_Answering_System.ipynb"><strong>Open in Colab</strong></a>
+    &nbsp;·&nbsp;
+    <a href="Transformer_Based_Question_Answering_System.ipynb"><strong>Explore the Notebook</strong></a>
+    &nbsp;·&nbsp;
+    <a href="#results--experiments"><strong>View Experiments</strong></a>
+    &nbsp;·&nbsp;
+    <a href="#getting-started"><strong>Get Started</strong></a>
+  </p>
+</div>
+
+---
+
+## Overview
+
+**Transformer-Based Question Answering** explores how an **extractive** model and a **generative** model can work together to answer questions grounded in a supplied passage. The project combines supervised fine-tuning, context-window preprocessing, model evaluation, attention visualization, parameter-efficient adaptation, and a Gradio demo in one research notebook.
+
+> **Project scope:** A notebook-based NLP research prototype, not a production API or a permanently hosted web application. The Gradio interface is launched from the notebook; its temporary public sharing URL is not a persistent deployment.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>01 · Extract</h3>
+      <p><strong>DistilBERT · Extractive QA</strong></p>
+      <p>Predict answer start/end token positions within the passage, using offset mappings and overlapping windows for long contexts.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>02 · Generate</h3>
+      <p><strong>DistilGPT2 · Generative QA</strong></p>
+      <p>Condition a causal language model on the question, passage, and extracted answer to produce additional text in a second stage.</p>
+    </td>
+  </tr>
+</table>
+
+### At a glance
+
+| Dataset | Models | Experimental scope | LoRA efficiency |
+|:--|:--|:--|:--|
+| **SQuAD 2.0** · 130,319 train / 11,873 validation examples | **DistilBERT + DistilGPT2** | 2,000 source examples per split in the notebook's fast-run configuration | **147,456 / 82,060,032** trainable parameters (~**0.18%**) |
+
+## System architecture
 
-This project aims to build a question answering system using Transformer models. The system can:
+```mermaid
+flowchart TD
+    DATA["SQuAD 2.0"] --> PREP["Tokenization & preprocessing"]
+    PREP --> EXTTRAIN["DistilBERT · extractive fine-tuning"]
+    PREP --> GENTRAIN["DistilGPT2 · causal LM fine-tuning"]
 
-Extract answers from a given text passage (Extractive QA) and Generate explanatory responses based on the extracted answers (Generative QA)
+    INPUT["Passage + Question"] --> EXTRACT["Answer span extraction"]
+    EXTTRAIN -. "QA checkpoint" .-> EXTRACT
+    EXTRACT --> PROMPT["Question + Context + Answer"]
+    INPUT --> PROMPT
+    GENTRAIN -. "Generator checkpoint" .-> GENERATE
+    PROMPT --> GENERATE["DistilGPT2 · generation"]
+    EXTRACT --> UI["Gradio · extracted answer"]
+    GENERATE --> UI2["Gradio · generated explanation"]
 
-The project demonstrates how Transformers handle context understanding, attention mechanisms, information extraction, and text generation. It also includes a fully interactive QA system.
+    classDef data fill:#142743,stroke:#5794d2,color:#eef7ff;
+    classDef extract fill:#123a44,stroke:#40c9db,color:#eef7ff;
+    classDef generate fill:#342c55,stroke:#a39bfa,color:#eef7ff;
+    class DATA,PREP,INPUT,PROMPT data;
+    class EXTTRAIN,EXTRACT,UI extract;
+    class GENTRAIN,GENERATE,UI2 generate;
+```
 
-2.Background
+The extraction and generation stages are trained separately. At inference time, the answer extracted by the QA model becomes part of the generator's prompt.
 
-Transformer is currently one of the most advanced model architectures in NLP. It can process long texts and capture long-range dependencies.
+## Key capabilities
 
-This project is a hands-on way to learn how Transformers work for both extractive and generative QA tasks, while also exploring fine-tuning, interpretability, and deployment.
+| Area | Implementation |
+|:--|:--|
+| **Question-answering data** | SQuAD 2.0 loading, exploratory analysis, examples, answerable/unanswerable cases |
+| **Long-context preprocessing** | Fast tokenization, character-to-token offset mappings, overflow windows, **384-token maximum length** and **128-token stride** |
+| **Extractive QA** | DistilBERT span prediction with Hugging Face `Trainer` and three training epochs |
+| **Generative QA** | DistilGPT2 causal language modeling with formatted question/context/answer sequences and three training epochs |
+| **Evaluation** | Training/validation loss, generation perplexity, sampled generations, and a zero-shot baseline experiment |
+| **Interpretability & PEFT** | Attention-head visualization using `bertviz` and a DistilGPT2 LoRA experiment using `peft` |
+| **Interactive demo** | Gradio interface with passage/question inputs and extracted-answer/generated-text outputs |
+
+## Results & experiments
 
-3.Project Goals
+### 1. Extractive QA · fine-tuning
 
-Fine-tune Transformer models for both extractive and generative QA
+The saved notebook output records the following DistilBERT losses over three epochs:
 
-Compare different Transformer models (BERT vs GPT-style) on these tasks
+<p align="center"><img src="assets/qa-training-curve.svg" alt="Recorded DistilBERT training and validation loss by epoch" width="100%" /></p>
 
-Visualize attention to understand how the models work internally
+| Epoch | Training loss ↓ | Validation loss ↓ |
+|:--:|--:|--:|
+| 1 | 3.7852 | 4.3144 |
+| 2 | 3.0676 | 4.0230 |
+| 3 | **2.6576** | **3.8841** |
 
-Build an interactive demo system (using Gradio)
+These are **loss values**, not Exact Match or F1 scores. The notebook also evaluates an unfine-tuned baseline, but that baseline uses a different-sized evaluation subset, so its loss should **not** be treated as a directly comparable benchmark.
 
-4.Dataset
+### 2. Generative QA · fine-tuning
 
-SQuAD 2.0 dataset (available from Hugging Face Datasets)
+| Epoch | Training loss ↓ | Validation loss ↓ |
+|:--:|--:|--:|
+| 1 | 2.8364 | **3.6066** |
+| 2 | 2.5285 | 3.7791 |
+| 3 | **2.3584** | 3.8368 |
 
-	datasets.load_dataset("squad_v2")
+**Recorded validation perplexity: 46.38.** The divergence between decreasing training loss and increasing validation loss suggests that the generator would benefit from additional tuning and stronger generalization checks. Sample outputs in the notebook also illustrate repetition and factual errors; the generated text should not be assumed to be fully grounded.
 
+### 3. Parameter-efficient fine-tuning · LoRA
 
-About the Dataset:
+| Configuration | Recorded value |
+|:--|--:|
+| Base model | `distilgpt2` |
+| Rank (`r`) | 8 |
+| Scaling (`lora_alpha`) | 32 |
+| Dropout | 0.1 |
+| Trainable parameters | **147,456** |
+| Total parameters | 82,060,032 |
+| Trainable fraction | **0.1797%** |
+| LoRA training epochs | 1 |
 
-Over 100,000 question-answer pairs from Wikipedia
+This experiment demonstrates how LoRA can limit the number of updated parameters. **It does not establish equivalent output quality** to full fine-tuning; a controlled, matched evaluation would be needed for that conclusion.
 
-Includes unanswerable questions, making it closer to real-world QA scenarios
+## Interactive demo
 
-Training set: ~87,000 examples, Validation set: ~11,000 examples
+The notebook includes an end-to-end **Gradio** interface with two inputs and two outputs:
 
-5.Technical Approach
+| Input | Output |
+|:--|:--|
+| **Context / Passage** · paste a document excerpt | **Extracted Answer** · predicted answer span |
+| **Question** · ask about the excerpt | **Generated Explanation** · text produced by DistilGPT2 |
 
-5.1 Data Preparation
+**Illustrative input** (not a captured prediction):
 
-Load SQuAD 2.0 and explore the dataset:
+> **Passage:** Python is a high-level, interpreted programming language known for its readability.  
+> **Question:** What is Python known for?
 
-	Print sample questions, passages, and answers
+The interface runs from the notebook using `iface.launch(share=True)`. Gradio's temporary sharing links expire, so no live demo URL is hard-coded here.
 
-  Compute the ratio of answerable vs unanswerable questions
+## Getting started
 
- Calculate the average passage length
+### Option A · Open directly in Colab
 
-Preprocessing:
+<a href="https://colab.research.google.com/github/EighthhDayy/Transformer-Based-Question-Answering-System/blob/main/Transformer_Based_Question_Answering_System.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" />
+</a>
 
-	Tokenize questions and passages using Transformer tokenizers (BERT / GPT-2)
+Run the notebook in order, preferably with a GPU runtime. It contains dataset exploration, preprocessing, training, evaluation, LoRA experiments, and the Gradio interface.
 
-	Truncate or pad sequences to handle variable lengths
+### Option B · Clone the repository
 
-	Properly mark unanswerable questions
+```bash
+git clone https://github.com/EighthhDayy/Transformer-Based-Question-Answering-System.git
+cd Transformer-Based-Question-Answering-System
+jupyter notebook Transformer_Based_Question_Answering_System.ipynb
+```
 
-Visualization:
+**Dependencies:** Python, PyTorch, Hugging Face `transformers` / `datasets` / `accelerate`, `peft`, `bertviz`, `gradio`, and common data-visualization packages. The included `requirements.txt` is a **large Colab environment snapshot**, not a curated minimal dependency lockfile; a fresh Colab environment is the simplest starting point.
 
-	Histogram of passage lengthsand Word cloud of questions
+<details>
+<summary><strong>Reproduction notes</strong></summary>
 
+- The notebook defaults to `DO_SUBSAMPLE = True` and `SAMPLE_SIZE = 2000`. Overlapping context windows increase the resulting tokenized row count.
+- Training artifacts are generated at runtime and are **not** committed to the repository.
+- The extractive training cell saves to `./squad_finetuned_model`, while the Gradio cell first searches for `./distilbert_finetuned_squad`. Align those paths to test the locally fine-tuned QA checkpoint; otherwise the demo may fall back to `distilbert-base-cased-distilled-squad`.
+- Running all cells in a new environment may require adjusting package versions or notebook code for current library APIs.
 
-5.2 Extractive QA
+</details>
 
-Fine-tune DistilBERT for extractive question answering
+## Repository structure
 
-Task:
+```text
+Transformer-Based-Question-Answering-System/
+├── README.md
+├── Transformer_Based_Question_Answering_System.ipynb
+├── requirements.txt
+├── LICENSE
+└── assets/
+    ├── qa-hero.svg
+    └── qa-training-curve.svg
+```
 
-	Predict the start and end positions of answers in passages
-  
-	Handle unanswerable questions
-  
-Training:
+## Next steps
 
-	Use Hugging Face Trainer API
-  
-	Train for 3–5 epochs
-  
-	Plot training and validation loss curves
+- [ ] Standardize saved checkpoint paths and tokenizer/model configuration.
+- [ ] Add SQuAD 2.0 **Exact Match / F1** evaluation and matched baseline comparisons.
+- [ ] Evaluate hallucination, answerability, and explanation quality on a held-out test set.
+- [ ] Add a persistent demo deployment and an actual interface screenshot.
+- [ ] Replace the environment snapshot with reproducible, minimal dependencies.
 
-5.3 Response Generation
+## Tech stack
 
-Fine-tune DistilGPT2 for generative QA
+**Modeling:** PyTorch · Hugging Face Transformers · DistilBERT · DistilGPT2 · PEFT/LoRA  
+**Data & evaluation:** Hugging Face Datasets · SQuAD 2.0 · NumPy · pandas · Matplotlib  
+**Visualization & UI:** bertviz · WordCloud · Gradio · Jupyter / Google Colab
 
-Data preparation:
+---
 
-      Create prompt-response pairs:
-            
-      Prompt: question + passage + extracted answer
-            
-      Response: explanatory text
-
-Training:
-
-	Use causal language modeling objective for 3–5 epochs
-
-Evaluation:
-
-	Generate 5 sample explanations and analyze them qualitatively (clarity, accuracy)
-
-	Compute perplexity on held-out data
-
-
-5.4 Advanced Exploration
-
-Visualize BERT attention heads (bertviz)
-
-Compare zero-shot vs fine-tuned performance on a subset of the validation set
-
-LoRA parameter-efficient fine-tuning
-
-
-5.5 Interactive Demo
-
-Build an interactive interface using Gradio
-
-This system accepts a passage and question as input to output an extracted answer alongside a generated explanation, and is available via a deployable link.
-
-6.Technical Guidelines
-
-Use Hugging Face Transformers and PyTorch
-
-Set a fixed random seed for reproducibility: torch.manual_seed(42)
-
-7.Analysis & Reflections
-
-Compare model performance in a table: 
-<img width="883" height="320" alt="image" src="https://github.com/user-attachments/assets/12c30f48-dba8-4d8d-bf27-6b3e97ddcbd7" />
-
-
-Challenges encountered: handling long passages, unanswerable questions
-
-Reflections:
-
-Learned practical applications of Transformers; Gained experience in both extractive and generative tasks; Developed a deeper understanding of NLP system design
+<div align="center">
+  <p><strong>Built to explore the full NLP lifecycle — from data preparation to interactive inference.</strong></p>
+  <a href="Transformer_Based_Question_Answering_System.ipynb">Notebook</a> ·
+  <a href="LICENSE">MIT License</a> ·
+  <a href="https://github.com/EighthhDayy/Transformer-Based-Question-Answering-System">Repository</a>
+</div>
