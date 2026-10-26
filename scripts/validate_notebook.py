@@ -19,7 +19,7 @@ def normalize_notebook_magics(source: str) -> str:
     result = []
     for line in source.splitlines(keepends=True):
         stripped = line.lstrip()
-        if stripped.startswith(("!", "%")):
+        if stripped.startswith("%") or (stripped.startswith("!") and not stripped.startswith("!=")):
             indent = line[: len(line) - len(stripped)]
             result.append(indent + "pass  # notebook shell/magic command\n")
         else:
