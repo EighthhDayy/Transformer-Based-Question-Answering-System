@@ -1,0 +1,29 @@
+name: Notebook static validation
+
+on:
+  push:
+    paths:
+      - "Transformer_Based_Question_Answering_System.ipynb"
+      - "scripts/validate_notebook.py"
+      - ".github/workflows/notebook-validation.yml"
+  pull_request:
+    paths:
+      - "Transformer_Based_Question_Answering_System.ipynb"
+      - "scripts/validate_notebook.py"
+      - ".github/workflows/notebook-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate notebook JSON and Python syntax
+        run: python scripts/validate_notebook.py
