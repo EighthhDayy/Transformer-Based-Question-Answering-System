@@ -106,7 +106,7 @@ The saved notebook output records the following DistilBERT losses over three epo
 | 2 | 3.0676 | 4.0230 |
 | 3 | **2.6576** | **3.8841** |
 
-These are **loss values**, not Exact Match or F1 scores. The notebook also evaluates an unfine-tuned baseline, but that baseline uses a different-sized evaluation subset, so its loss should **not** be treated as a directly comparable benchmark.
+These are **loss values**, not Exact Match or F1 scores. The upgraded notebook adds a **matched-example SQuAD 2.0 EM/F1 evaluation** comparing the locally fine-tuned checkpoint with an independently published SQuAD-fine-tuned reference model. This is **not** a zero-shot baseline or a reported before/after improvement; actual EM/F1 values must be obtained by executing the new evaluation cell.
 
 ### 2. Generative QA · fine-tuning
 
@@ -174,7 +174,7 @@ jupyter notebook Transformer_Based_Question_Answering_System.ipynb
 
 - The notebook defaults to `DO_SUBSAMPLE = True` and `SAMPLE_SIZE = 2000`. Overlapping context windows increase the resulting tokenized row count.
 - Training artifacts are generated at runtime and are **not** committed to the repository.
-- The extractive training cell saves to `./squad_finetuned_model`, while the Gradio cell first searches for `./distilbert_finetuned_squad`. Align those paths to test the locally fine-tuned QA checkpoint; otherwise the demo may fall back to `distilbert-base-cased-distilled-squad`.
+- The extractive training and Gradio cells now both use `./squad_finetuned_model` and the generator uses `./gpt2_finetuned_squad`. Each tokenizer is explicitly saved; the demo raises a clear error if a checkpoint is missing instead of silently falling back to another model.
 - Running all cells in a new environment may require adjusting package versions or notebook code for current library APIs.
 
 </details>
@@ -194,11 +194,25 @@ Transformer-Based-Question-Answering-System/
 
 ## Next steps
 
-- [ ] Standardize saved checkpoint paths and tokenizer/model configuration.
-- [ ] Add SQuAD 2.0 **Exact Match / F1** evaluation and matched baseline comparisons.
+- [x] Standardize model/tokenizer saving and Gradio checkpoint paths.
+- [x] Add executable **SQuAD 2.0 Exact Match / F1** evaluation code on the same balanced pilot subset (measure and record the results by running it).
+- [ ] Expand the pilot evaluation to the full validation set and calibrate the no-answer threshold.
 - [ ] Evaluate hallucination, answerability, and explanation quality on a held-out test set.
 - [ ] Add a persistent demo deployment and an actual interface screenshot.
 - [ ] Replace the environment snapshot with reproducible, minimal dependencies.
+
+## 2026 modernization · optional Qwen3 / QLoRA pilot
+
+The notebook now contains an **opt-in** Qwen3 experiment alongside the original DistilBERT + DistilGPT2 pipeline. It is not a replacement for the historically reported experiments:
+
+- **Qwen3-0.6B** with a chat-template prompt and non-thinking mode.
+- **QLoRA** with NF4 4-bit base weights, LoRA adapters and Hugging Face PEFT.
+- **TRL SFTTrainer** with a SQuAD-derived prompt/completion dataset and completion-only loss.
+- A reproducibility checklist requesting the actual GPU model, runtime, memory usage and evaluated answer quality.
+
+Set `RUN_QWEN_QLORA = True` in the optional setup cell **only** when you have a CUDA GPU and intend to download/train the model. It is **False by default** and there are **no verified Qwen3 training results** yet.
+
+The upgraded extractive benchmark uses **50 answerable + 50 unanswerable** validation examples by default. This is a pilot rather than the official full SQuAD 2.0 score. The saved training losses are **archived from the original notebook run**, not newly measured results after the code fixes.
 
 ## Tech stack
 
