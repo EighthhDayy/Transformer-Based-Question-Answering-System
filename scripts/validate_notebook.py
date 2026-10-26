@@ -31,6 +31,21 @@ def main() -> None:
     notebook = json.loads(NOTEBOOK.read_text(encoding="utf-8"))
     if notebook.get("nbformat") != 4:
         raise ValueError("Expected Jupyter Notebook format version 4.")
+    # GitHub's notebook renderer rejects incomplete ipywidgets state metadata.
+    # This repository does not commit interactive widget state, only static
+    # figures and archived text/HTML outputs.
+    if "widgets" in notebook.get("metadata", {}):
+        raise ValueError(
+            "Remove metadata.widgets before commit; incomplete widget state "
+            "causes GitHub's Invalid Notebook rendering error."
+        )
+    for cell_index, cell in enumerate(notebook["cells"]):
+        for output in cell.get("outputs", []):
+            if "application/vnd.jupyter.widget-view+json" in output.get("data", {}):
+                raise ValueError(
+                    f"Code cell {cell_index} contains widget-view output; "
+                    "export a static figure or remove the stale progress widget."
+                )
     cells = notebook["cells"]
     compiled = 0
     for index, cell in enumerate(cells):
