@@ -5,11 +5,13 @@ on:
     paths:
       - "Transformer_Based_Question_Answering_System.ipynb"
       - "scripts/validate_notebook.py"
+      - "scripts/test_qa_span_decoder.py"
       - ".github/workflows/notebook-validation.yml"
   pull_request:
     paths:
       - "Transformer_Based_Question_Answering_System.ipynb"
       - "scripts/validate_notebook.py"
+      - "scripts/test_qa_span_decoder.py"
       - ".github/workflows/notebook-validation.yml"
 
 permissions:
@@ -27,3 +29,5 @@ jobs:
           python-version: "3.11"
       - name: Validate notebook JSON and Python syntax
         run: python scripts/validate_notebook.py
+      - name: Test answer span and abstention decoding
+        run: python -m unittest discover -s scripts -p "test_qa_span_decoder.py" -v
