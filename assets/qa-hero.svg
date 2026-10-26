@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-label="Transformer-based question answering: extract with DistilBERT, generate with DistilGPT2">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0A1022"/><stop offset=".62" stop-color="#101E39"/><stop offset="1" stop-color="#142748"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#29B6E9" stop-opacity=".3"/><stop offset="1" stop-color="#29B6E9" stop-opacity="0"/></radialGradient>
+ <pattern id="dots" width="25" height="25" patternUnits="userSpaceOnUse"><circle cx="1.7" cy="1.7" r="1" fill="#89A8CC" opacity=".14"/></pattern>
+ <linearGradient id="accent" x1="0" x2="1"><stop stop-color="#42D5F4"/><stop offset="1" stop-color="#A7A0FF"/></linearGradient>
+ <filter id="shadow" x="-25%" y="-40%" width="150%" height="190%"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#020712" flood-opacity=".35"/></filter>
+</defs>
+<rect width="1200" height="380" rx="24" fill="url(#bg)"/>
+<rect width="1200" height="380" rx="24" fill="url(#dots)"/>
+<circle cx="930" cy="120" r="260" fill="url(#glow)"/>
+<path d="M42 41h66" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
+<text x="44" y="78" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700" letter-spacing="3" fill="#61D2EB">NLP  /  TRANSFORMER RESEARCH</text>
+<text x="42" y="142" font-family="Arial,Helvetica,sans-serif" font-size="44" font-weight="800" fill="#F5FAFF">Transformer-Based</text>
+<text x="42" y="196" font-family="Arial,Helvetica,sans-serif" font-size="44" font-weight="800" fill="#F5FAFF">Question Answering</text>
+<text x="44" y="238" font-family="Arial,Helvetica,sans-serif" font-size="18" fill="#BED0E8">From source passage to extracted answer</text>
+<text x="44" y="267" font-family="Arial,Helvetica,sans-serif" font-size="18" fill="#BED0E8">and a generated explanation.</text>
+<rect x="43" y="300" width="159" height="35" rx="17.5" fill="#103A4B" stroke="#276F84"/>
+<text x="122.5" y="322" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="700" fill="#68E0F4">EXTRACTIVE QA</text>
+<rect x="212" y="300" width="163" height="35" rx="17.5" fill="#282C58" stroke="#525B99"/>
+<text x="293.5" y="322" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="700" fill="#C4BEFF">GENERATIVE QA</text>
+<g fill="none" stroke="#6CCCE8" stroke-opacity=".58" stroke-width="2">
+ <path d="M907 106V137M907 137H788V165M907 137H1037V165"/>
+ <path d="M788 235V274H908M1037 235V274H908"/>
+</g>
+<g filter="url(#shadow)">
+ <rect x="767" y="42" width="279" height="67" rx="15" fill="#1B3050" stroke="#43607F"/>
+ <rect x="694" y="165" width="189" height="76" rx="15" fill="#173849" stroke="#27798B"/>
+ <rect x="916" y="165" width="229" height="76" rx="15" fill="#302D52" stroke="#6367A2"/>
+ <rect x="773" y="274" width="271" height="66" rx="15" fill="#1C3255" stroke="#4E7095"/>
+</g>
+<text x="906.5" y="67" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#A6C3E6">INPUT</text>
+<text x="906.5" y="91" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#EDF7FF">Passage + Question</text>
+<text x="788.5" y="192" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#85E7F3">DistilBERT</text>
+<text x="788.5" y="218" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#C8E2E9">Answer extraction</text>
+<text x="1030.5" y="192" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#CCC2FF">DistilGPT2</text>
+<text x="1030.5" y="218" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#DED9F6">Text generation</text>
+<text x="908.5" y="297" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#95C1EB">GRADIO DEMO</text>
+<text x="908.5" y="322" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="700" fill="#F2FAFF">Answer + Explanation</text>
+</svg>
