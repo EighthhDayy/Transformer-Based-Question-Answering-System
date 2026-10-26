@@ -210,6 +210,8 @@ The notebook now contains an **opt-in** Qwen3 experiment alongside the original 
 - **TRL SFTTrainer** with a SQuAD-derived prompt/completion dataset and completion-only loss.
 - A reproducibility checklist requesting the actual GPU model, runtime, memory usage and evaluated answer quality.
 
+For full execution instructions, see the [**Google Colab Run Guide**](docs/COLAB_RUN_GUIDE.md), including which cells to run, checkpoint paths, troubleshooting and which results are appropriate for a resume.
+
 Set `RUN_QWEN_QLORA = True` in the optional setup cell **only** when you have a CUDA GPU and intend to download/train the model. It is **False by default** and there are **no verified Qwen3 training results** yet.
 
 The upgraded extractive benchmark uses **50 answerable + 50 unanswerable** validation examples by default. This is a pilot rather than the official full SQuAD 2.0 score. The saved training losses are **archived from the original notebook run**, not newly measured results after the code fixes.
