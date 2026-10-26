@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="400" viewBox="0 0 1100 400" role="img" aria-label="DistilBERT training and validation losses across three epochs">
+<defs>
+ <linearGradient id="cback" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111A31"/><stop offset="1" stop-color="#1B3050"/></linearGradient>
+ <linearGradient id="under" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#47D1EE" stop-opacity=".17"/><stop offset="1" stop-color="#47D1EE" stop-opacity="0"/></linearGradient>
+</defs>
+<rect width="1100" height="400" rx="20" fill="url(#cback)"/>
+<text x="56" y="51" font-family="Arial,Helvetica,sans-serif" font-size="24" font-weight="700" fill="#F3F8FF">DistilBERT · Training history</text>
+<text x="56" y="81" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#AAC0DC">Recorded notebook output · 3 epochs · 2,000-example source subset</text>
+<circle cx="741" cy="50" r="5" fill="#43D1E9"/><text x="756" y="55" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#DAE7F5">Training loss</text>
+<circle cx="900" cy="50" r="5" fill="#FFBC75"/><text x="916" y="55" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#DAE7F5">Validation loss</text>
+<g stroke="#49627F" stroke-opacity=".47" stroke-width="1">
+ <path d="M130 109H1023M130 163H1023M130 217H1023M130 271H1023M130 325H1023"/>
+ <path d="M240 109V325M570 109V325M900 109V325" stroke-dasharray="4 7"/>
+</g>
+<g font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#9FB7D5">
+ <text x="109" y="114" text-anchor="end">5.0</text><text x="109" y="168" text-anchor="end">4.25</text><text x="109" y="222" text-anchor="end">3.5</text><text x="109" y="276" text-anchor="end">2.75</text><text x="109" y="330" text-anchor="end">2.0</text>
+ <text x="240" y="353" text-anchor="middle">Epoch 1</text><text x="570" y="353" text-anchor="middle">Epoch 2</text><text x="900" y="353" text-anchor="middle">Epoch 3</text>
+ <text x="56" y="226" transform="rotate(-90 56 226)" text-anchor="middle">Cross-entropy loss</text>
+</g>
+<path d="M240 196.5 L570 248.2 L900 277.6 L900 325 L240 325Z" fill="url(#under)"/>
+<path d="M240 196.5 L570 248.2 L900 277.6" fill="none" stroke="#43D1E9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M240 158.4 L570 179.3 L900 189.4" fill="none" stroke="#FFBC75" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#43D1E9" stroke="#111A31" stroke-width="3"><circle cx="240" cy="196.5" r="7"/><circle cx="570" cy="248.2" r="7"/><circle cx="900" cy="277.6" r="7"/></g>
+<g fill="#FFBC75" stroke="#111A31" stroke-width="3"><circle cx="240" cy="158.4" r="7"/><circle cx="570" cy="179.3" r="7"/><circle cx="900" cy="189.4" r="7"/></g>
+<g font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700">
+ <text x="240" y="185" text-anchor="middle" fill="#5DE8FC">3.785</text><text x="570" y="272" text-anchor="middle" fill="#5DE8FC">3.068</text><text x="900" y="303" text-anchor="middle" fill="#5DE8FC">2.658</text>
+ <text x="240" y="142" text-anchor="middle" fill="#FFD09B">4.314</text><text x="570" y="162" text-anchor="middle" fill="#FFD09B">4.023</text><text x="900" y="172" text-anchor="middle" fill="#FFD09B">3.884</text>
+</g>
+<text x="1055" y="376" text-anchor="end" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#829AB9">Lower is better · Loss is not EM / F1 accuracy</text>
+</svg>
