@@ -7,7 +7,7 @@ This guide covers the project's **DistilBERT extractive QA** and **Qwen3 generat
 1. Open [the notebook](../Transformer_Based_Question_Answering_System.ipynb) in Google Colab with a CUDA GPU.
 2. Run the first package installation cell **once**. It pins `transformers==4.57.1`, `trl==0.23.1`, `peft==0.17.1` and `huggingface-hub==0.36.2` to avoid the cross-version import conflicts observed in the pilot.
 3. If packages were changed, restart the session and **rerun the data-loading cell**. Python variables, including `dataset`, are lost on restart.
-4. Never execute an old optional installation cell containing unbounded upgrades such as `transformers>=4.57`: it may load incompatible APIs.
+4. Avoid unpinned package upgrades such as `transformers>=4.57`; they can load incompatible APIs.
 
 ## DistilBERT extractive model
 
