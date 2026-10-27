@@ -72,11 +72,12 @@ def main() -> None:
         "extractive evaluation": 'evaluate.load("squad_v2")',
         "v5-compatible span decoder": "def extract_answer_span(",
         "fine-tuned QA checkpoint": "./squad_finetuned_model",
-        "local generator checkpoint": "./gpt2_finetuned_squad",
         "LoRA fine-tuning": "LoraConfig(",
         "QLoRA opt-in": "RUN_QWEN_QLORA = False",
         "answer span preservation": "window_start_char <= span_start",
         "QLoRA completion-only loss": "completion_only_loss=True",
+        "nonthinking inference": "enable_thinking=False",
+        "deterministic decoding": "do_sample=False",
     }
     missing = [
         name for name, identifier in required_features.items()
