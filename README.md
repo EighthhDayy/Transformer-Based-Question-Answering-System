@@ -78,12 +78,11 @@ These are **archived training logs** and are not DistilBERT EM/F1. A fine-tuned 
 ## Reproducibility
 
 1. Open the notebook in Google Colab with a CUDA GPU (T4 supported for the Qwen3 path).
-2. Use the **pinned Hugging Face dependency versions** in the notebook setup cell, then restart the session if needed. Run data loading again after a restart.
+2. Use the **pinned Hugging Face dependency versions** in the notebook setup cell.
 3. Run the DistilBERT pipeline, or set `RUN_QWEN_QLORA = True` for the Qwen3 path.
 4. Qwen3 saves a PEFT adapter to `./qwen3_qlora_adapter`; DistilBERT saves its checkpoint to `./squad_finetuned_model`. Back them up before Colab discards the runtime.
 5. Evaluate on identified validation sample IDs and report actual generated scores; never treat archived output as proof that a fresh run passed.
 
-[Full Colab run guide](docs/COLAB_RUN_GUIDE.md).
 
 ### Dependencies
 
@@ -94,8 +93,3 @@ The recommended versions for the Qwen3 experiment include `transformers==4.57.1`
 - The 300-example training supervision audit found **300/300 complete completion targets**, with 150 examples per class.
 - Inspection found matching Qwen3 chat prompt formats for training and inference on sampled records.
 
-## Scope and project status
-
-**Completed:** Qwen3 QLoRA pilot training, inference, base-vs-adapter evaluation, error analysis.  
-**To verify before claiming fully reproducible dual-model results:** final DistilBERT EM/F1 and an end-to-end clean-runtime notebook run.  
-**Not claimed:** hosted demo, production deployment, full SQuAD benchmark, or demonstrated QLoRA speedups.
