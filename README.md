@@ -18,7 +18,7 @@ This research prototype compares two approaches to passage-grounded question ans
 | Extractive QA | `distilbert-base-uncased` | Supervised start/end span prediction | Span copied from context, or no answer |
 | Generative QA | `Qwen/Qwen3-0.6B` | Supervised fine-tuning (SFT) with NF4 4-bit QLoRA | Short grounded answer, or explicit abstention |
 
-**Dataset:** SQuAD 2.0. This is a notebook-based research project, not a deployed production service. **DistilGPT2 was retired from the project scope**; its historical training outputs are not part of this model comparison.
+**Dataset:** SQuAD 2.0. This is a notebook-based research project, not a deployed production service.
 
 ## Architecture
 
