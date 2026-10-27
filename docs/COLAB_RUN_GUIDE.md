@@ -1,6 +1,6 @@
 # Running the DistilBERT + Qwen3 notebook in Google Colab
 
-This guide applies to the notebook on this finalization branch. It covers two **separate** SQuAD 2.0 QA approaches, not a chained DistilBERT → GPT2 system.
+This guide covers the project's **DistilBERT extractive QA** and **Qwen3 generative QA** workflows on SQuAD 2.0.
 
 ## Setup
 
