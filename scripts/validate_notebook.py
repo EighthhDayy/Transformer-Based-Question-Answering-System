@@ -72,11 +72,12 @@ def main() -> None:
         "extractive evaluation": 'evaluate.load("squad_v2")',
         "v5-compatible span decoder": "def extract_answer_span(",
         "fine-tuned QA checkpoint": "./squad_finetuned_model",
-        "local generator checkpoint": "./gpt2_finetuned_squad",
         "LoRA fine-tuning": "LoraConfig(",
         "QLoRA opt-in": "RUN_QWEN_QLORA = False",
         "answer span preservation": "window_start_char <= span_start",
         "QLoRA completion-only loss": "completion_only_loss=True",
+        "nonthinking inference": "enable_thinking=False",
+        "deterministic decoding": "do_sample=False",
     }
     missing = [
         name for name, identifier in required_features.items()
@@ -84,6 +85,8 @@ def main() -> None:
     ]
     if missing:
         raise AssertionError("Missing expected pipeline elements: " + ", ".join(missing))
+    if "distilgpt2" in all_code.lower() or "gpt2_finetuned_squad" in all_code:
+        raise AssertionError("Legacy DistilGPT2 path remains in the final notebook.")
     if 'pipeline("question-answering"' in all_code or "task=\"question-answering\"" in all_code:
         raise AssertionError("Removed Transformers v5 question-answering pipeline is still used.")
     print(f"PASS: Jupyter JSON, {compiled} Python code cells and key pipeline markers.")
