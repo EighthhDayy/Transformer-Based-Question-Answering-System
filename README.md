@@ -18,7 +18,7 @@ This research prototype compares two approaches to passage-grounded question ans
 | Extractive QA | `distilbert-base-uncased` | Supervised start/end span prediction | Span copied from context, or no answer |
 | Generative QA | `Qwen/Qwen3-0.6B` | Supervised fine-tuning (SFT) with NF4 4-bit QLoRA | Short grounded answer, or explicit abstention |
 
-**Dataset:** SQuAD 2.0. This is a notebook-based research project, not a deployed production service.
+**Dataset:** SQuAD 2.0.
 
 ## Architecture
 
@@ -33,7 +33,7 @@ flowchart TD
     E --> R["Paired error analysis and limitations"]
 ```
 
-The models are **two alternative QA approaches**; the DistilBERT answer is not secretly passed to Qwen3. DistilBERT uses extractive span decoding and a no-answer score, while Qwen3 directly generates an answer or a fixed abstention phrase.
+The models are **two alternative QA approaches**. DistilBERT uses extractive span decoding and a no-answer score, while Qwen3 directly generates an answer or a fixed abstention phrase.
 
 ## Qwen3 QLoRA pilot — observed results
 
@@ -47,9 +47,8 @@ The models are **two alternative QA approaches**; the DistilBERT answer is not s
 | Validation loss | 0.4616 |
 | Mean token accuracy (training log) | 86.32% |
 
-**Important:** Token accuracy is not QA accuracy. Peak allocated CUDA memory is not total process/device VRAM. These values came from a small pilot training run, not repeated performance trials.
 
-### Base vs. QLoRA-adapted Qwen3 (paired 80-example pilot)
+### Base vs. QLoRA-adapted Qwen3
 
 40 answerable + 40 unanswerable validation examples, deterministic greedy generation.
 
@@ -62,9 +61,7 @@ The models are **two alternative QA approaches**; the DistilBERT answer is not s
 | No-answer recall | 30.00% | 90.00% |
 | False abstentions / 40 answerable | 6 | 25 |
 
-**Interpretation:** Fine-tuning improved overall EM/F1 and no-answer recall on this pilot, but also raised false abstentions from 6 to 25. In paired analysis, 20 answerable questions changed from an attempted answer to refusal; 13 had nonzero base-model token F1. This is an observed tradeoff, **not proof of causation or generalization**. The earlier 58.75% EM / 62.31% F1 run was not identical to the subsequent comparison output (56.25% / 60.44%); this report consistently uses the paired comparison numbers and does not claim an unexplained improvement.
-
-**Evaluation limitations:** The sample is only 80 items and was used for error investigation. It is **not** the full official SQuAD 2.0 benchmark. It may not reflect out-of-sample performance, and generated answers are not proof of factual grounding outside the annotated evaluation protocol.
+**Interpretation:** Fine-tuning improved overall EM/F1 and no-answer recall on this pilot, but also raised false abstentions from 6 to 25. In paired analysis, 20 answerable questions changed from an attempted answer to refusal; 13 had nonzero base-model token F1. This is an observed tradeoff, **not proof of causation or generalization**. The earlier 58.75% EM / 62.31% F1 run was not identical to the subsequent comparison output (56.25% / 60.44%).
 
 ## DistilBERT extractive track
 
@@ -92,18 +89,13 @@ These are **archived training logs** and are not DistilBERT EM/F1. A fine-tuned 
 
 The recommended versions for the Qwen3 experiment include `transformers==4.57.1`, `trl==0.23.1`, `peft==0.17.1`, and `huggingface-hub==0.36.2`. The original root `requirements.txt` is a historical Colab environment snapshot, **not** a portable lockfile.
 
-## Findings and limitations
+## Findings
 
 - The 300-example training supervision audit found **300/300 complete completion targets**, with 150 examples per class.
 - Inspection found matching Qwen3 chat prompt formats for training and inference on sampled records.
-- Low Answerable EM and false abstentions show that **abstention calibration remains a limitation**; this project does not claim that the problem was fixed.
-- Model comparisons require matched samples, inference settings, and scoring policies. Extractive QA and generative QA have different output mechanisms and should not be described as inherently interchangeable.
 
 ## Scope and project status
 
 **Completed:** Qwen3 QLoRA pilot training, inference, base-vs-adapter evaluation, error analysis.  
 **To verify before claiming fully reproducible dual-model results:** final DistilBERT EM/F1 and an end-to-end clean-runtime notebook run.  
 **Not claimed:** hosted demo, production deployment, full SQuAD benchmark, or demonstrated QLoRA speedups.
-
----
-MIT License · [Repository](https://github.com/EighthhDayy/Transformer-Based-Question-Answering-System)
