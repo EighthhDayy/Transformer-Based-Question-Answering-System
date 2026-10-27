@@ -5,7 +5,7 @@
 
 **Extractive vs. Generative Question Answering on SQuAD 2.0**
 
-[Open Notebook](Transformer_Based_Question_Answering_System.ipynb) · [Run in Colab](https://colab.research.google.com/github/EighthhDayy/Transformer-Based-Question-Answering-System/blob/finalize/distilbert-qwen3-2026/Transformer_Based_Question_Answering_System.ipynb) · [Reproduction Guide](docs/COLAB_RUN_GUIDE.md)
+[Open Notebook](Transformer_Based_Question_Answering_System.ipynb) · [Run in Colab](https://colab.research.google.com/github/EighthhDayy/Transformer-Based-Question-Answering-System/blob/main/Transformer_Based_Question_Answering_System.ipynb) · [Reproduction Guide](docs/COLAB_RUN_GUIDE.md)
 
 </div>
 
