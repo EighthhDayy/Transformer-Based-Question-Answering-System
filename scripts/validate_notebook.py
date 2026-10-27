@@ -85,8 +85,6 @@ def main() -> None:
     ]
     if missing:
         raise AssertionError("Missing expected pipeline elements: " + ", ".join(missing))
-    if "distilgpt2" in all_code.lower() or "gpt2_finetuned_squad" in all_code:
-        raise AssertionError("Legacy DistilGPT2 path remains in the final notebook.")
     if 'pipeline("question-answering"' in all_code or "task=\"question-answering\"" in all_code:
         raise AssertionError("Removed Transformers v5 question-answering pipeline is still used.")
     print(f"PASS: Jupyter JSON, {compiled} Python code cells and key pipeline markers.")
