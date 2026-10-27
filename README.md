@@ -16,7 +16,7 @@ This research prototype compares two approaches to passage-grounded question ans
 | Track | Model | Method | Output |
 |---|---|---|---|
 | Extractive QA | `distilbert-base-uncased` | Supervised start/end span prediction | Span copied from context, or no answer |
-| Generative QA | `Qwen/Qwen3-0.6B` | Supervised fine-tuning (SFT) with NF4 4-bit QLoRA | Short grounded answer, or explicit abstention |
+| Generative QA | `Qwen/Qwen3-0.6B` | Supervised fine-tuning (SFT) with NF4 4-bit QLoRA | Short grounded answer, or abstention |
 
 **Dataset:** SQuAD 2.0.
 
@@ -33,7 +33,7 @@ flowchart TD
     E --> R["Paired error analysis and limitations"]
 ```
 
-The models are **two alternative QA approaches**. DistilBERT uses extractive span decoding and a no-answer score, while Qwen3 directly generates an answer or a fixed abstention phrase.
+The models are **two alternative QA approaches**. DistilBERT uses extractive span decoding and a no-answer score, while Qwen3 directly generates an answer or a abstention phrase.
 
 ## Qwen3 QLoRA pilot — observed results
 
