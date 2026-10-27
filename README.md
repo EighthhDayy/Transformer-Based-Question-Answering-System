@@ -35,9 +35,9 @@ flowchart TD
 
 The models are **two alternative QA approaches**. DistilBERT uses extractive span decoding and a no-answer score, while Qwen3 directly generates an answer or a abstention phrase.
 
-## Qwen3 QLoRA pilot — observed results
+## Qwen3 QLoRA — observed results
 
-**Hardware:** NVIDIA Tesla T4. **Training:** 300 SQuAD 2.0 examples (150 answerable and 150 unanswerable), one epoch, 38 optimizer steps, batch size 1, gradient accumulation 8, learning rate 2e-4, NF4 quantization, LoRA, completion-only loss, non-thinking chat template.
+**Hardware:** NVIDIA Tesla T4. **Training:** 300 SQuAD 2.0 examples (150 answerable and 150 unanswerable), one epoch, 38 optimizer steps, batch size 1, gradient accumulation 8, learning rate 2e-4, NF4 quantization, LoRA, completion-only loss.
 
 | Training observation | Value |
 |---|---:|
