@@ -86,8 +86,7 @@ These are **archived training logs** and are not DistilBERT EM/F1. A fine-tuned 
 
 ### Dependencies
 
-The recommended versions for the Qwen3 experiment include `transformers==4.57.1`, `trl==0.23.1`, `peft==0.17.1`, and `huggingface-hub==0.36.2`. The original root `requirements.txt` is a historical Colab environment snapshot, **not** a portable lockfile.
-
+The recommended versions for the Qwen3 experiment include `transformers==4.57.1`, `trl==0.23.1`, `peft==0.17.1`, and `huggingface-hub==0.36.2`. 
 ## Findings
 
 - The 300-example training supervision audit found **300/300 complete completion targets**, with 150 examples per class.
