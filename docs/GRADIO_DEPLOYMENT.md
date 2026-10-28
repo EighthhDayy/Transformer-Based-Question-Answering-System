@@ -81,3 +81,46 @@ Open `https://huggingface.co/spaces/YOUR_HF_USERNAME/transformer-qa-demo` **afte
 - DistilBERT uses 384-token overlapping windows, stride 128, 30-token maximum answer span and a CLS-based no-answer threshold of 0.0.
 - Qwen3 sees up to ~300 initial context tokens to fit a 450-token prompt. The UI warns if the passage was shortened.
 - This is an interactive research demo: it is **not** a new benchmark or evidence of production reliability.
+
+
+## Alternative: temporary Gradio URL from Colab (no Space subscription)
+
+If both fine-tuned folders still exist in the **current Colab runtime**, you can test the same interface directly from Colab without publishing a Space. The link is temporary and stops working when that Colab runtime ends.
+
+```python
+# Run in Colab, after confirming both checkpoint directories still exist.
+from pathlib import Path
+import os
+import subprocess
+
+root = Path("/content")
+project = root / "Transformer-Based-Question-Answering-System"
+if not project.is_dir():
+    subprocess.check_call([
+        "git", "clone",
+        "https://github.com/EighthhDayy/Transformer-Based-Question-Answering-System.git",
+        str(project),
+    ])
+
+subprocess.check_call([
+    "python", "-m", "pip", "install", "-q",
+    "-r", str(project / "space" / "requirements.txt"),
+])
+
+distilbert = Path("./squad_finetuned_model").resolve()
+qwen_adapter = Path("./qwen3_qlora_adapter").resolve()
+if not distilbert.is_dir() or not qwen_adapter.is_dir():
+    raise FileNotFoundError(
+        "Fine-tuned model folders are missing in this runtime. "
+        "Restore the checkpoints first."
+    )
+
+os.environ["DISTILBERT_MODEL_ID"] = str(distilbert)
+os.environ["QWEN3_ADAPTER_ID"] = str(qwen_adapter)
+os.environ["GRADIO_SHARE"] = "1"
+
+# This starts Gradio in Colab and prints a temporary gradio.live sharing link.
+subprocess.run(["python", str(project / "space" / "app.py")], check=True)
+```
+
+If your Colab environment requires a runtime restart after installing dependencies, rerun the setup and restore checkpoint folder paths before starting the app. A temporary link is not a persistent hosted portfolio deployment.
