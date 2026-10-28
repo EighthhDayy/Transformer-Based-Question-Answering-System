@@ -325,4 +325,5 @@ with gr.Blocks(title="Transformer QA | DistilBERT + Qwen3") as demo:
 
 
 if __name__ == "__main__":
-    demo.queue(default_concurrency_limit=1).launch()
+    share_link = os.getenv("GRADIO_SHARE", "0") == "1"
+    demo.queue(default_concurrency_limit=1).launch(share=share_link)
