@@ -1,0 +1,38 @@
+name: Gradio Space static checks
+
+on:
+  push:
+    paths:
+      - "space/**"
+      - "scripts/publish_qa_space.py"
+      - ".github/workflows/gradio-space-checks.yml"
+  pull_request:
+    paths:
+      - "space/**"
+      - "scripts/publish_qa_space.py"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile deployment scripts
+        run: python -m py_compile space/app.py scripts/publish_qa_space.py
+      - name: Verify Space metadata and required config
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          app = Path("space/app.py").read_text(encoding="utf-8")
+          readme = Path("space/README.md").read_text(encoding="utf-8")
+          reqs = Path("space/requirements.txt").read_text(encoding="utf-8")
+          assert "sdk: gradio" in readme
+          assert "app_file: app.py" in readme
+          assert "gradio" in reqs
+          for marker in ("DISTILBERT_MODEL_ID", "QWEN3_ADAPTER_ID", "PeftModel.from_pretrained", "gr.Blocks", "enable_thinking=False"):
+              assert marker in app, marker
+          assert "gpt2" not in app.lower()
+          print("Space structure and checkpoint wiring: PASS")
+          PY
