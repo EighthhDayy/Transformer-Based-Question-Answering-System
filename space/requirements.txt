@@ -5,3 +5,5 @@ peft==0.17.1
 accelerate>=1.0,<2
 torch>=2.4,<3
 safetensors>=0.4
+fastapi>=0.115,<1
+uvicorn>=0.30,<1
