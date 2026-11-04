@@ -75,6 +75,18 @@ The notebook implements fast-tokenizer offset mapping, 384-token context windows
 
 These are **archived training logs** and are not DistilBERT EM/F1. A fine-tuned DistilBERT checkpoint must be loaded and evaluated to report extractive QA scores. **No unverified DistilBERT EM/F1 is invented here.**
 
+## Qwen3 inference API
+
+Run this from the repository root. Point `QWEN3_ADAPTER_ID` at the actual QLoRA adapter directory or its Hugging Face model repository ID.
+
+```powershell
+python -m pip install -r space/requirements.txt
+$env:QWEN3_ADAPTER_ID = "C:\path\to\qwen3_qlora_adapter"
+python -m uvicorn predict_api:app --app-dir space --host 127.0.0.1 --port 8001
+```
+
+On Bash, set the path with `export QWEN3_ADAPTER_ID=/path/to/qwen3_qlora_adapter`. The service loads the model at startup and serves `POST /predict` with `question` and `context` in the JSON request. It returns `answer` and `model`. It shares the Gradio demo's Qwen3 inference code. For a Task Manager running in Docker Desktop on the same machine, bind to an address Docker can reach, such as `--host 0.0.0.0` on a trusted local network.
+
 ## Reproducibility
 
 1. Open the notebook in Google Colab with a CUDA GPU (T4 supported for the Qwen3 path).

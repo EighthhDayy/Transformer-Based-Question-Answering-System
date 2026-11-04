@@ -52,7 +52,7 @@ Model IDs are **examples constructed from your actual authenticated username**; 
 Hugging Face currently requires a paid account plan to create new Gradio/Docker compute Spaces, even on CPU Basic (which has no hourly charge). GPU hardware, when selected, has usage charges. See [official Spaces overview](https://huggingface.co/docs/hub/spaces-overview) and [billing](https://huggingface.co/docs/hub/spaces-gpus).
 
 1. Visit [Create Space](https://huggingface.co/new-space). Choose **Gradio**, a name such as `transformer-qa-demo`, and public visibility if the demo is intended for your resume.
-2. Upload the **contents** of GitHub `space/` as the Space **root** (`README.md`, `app.py`, `requirements.txt`). You can upload files in the UI, clone the Space, or use `HfApi.upload_folder`.
+2. Upload the **contents** of GitHub `space/` as the Space **root** (`README.md`, `app.py`, `qwen_inference.py`, `requirements.txt`). You can upload files in the UI, clone the Space, or use `HfApi.upload_folder`.
 3. In **Space → Settings → Variables**, set:
    - `DISTILBERT_MODEL_ID` = `YOUR_HF_USERNAME/transformer-qa-distilbert`
    - `QWEN3_ADAPTER_ID` = `YOUR_HF_USERNAME/transformer-qa-qwen3-qlora`

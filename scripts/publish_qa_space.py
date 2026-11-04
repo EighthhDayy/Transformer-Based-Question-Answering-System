@@ -19,7 +19,7 @@ def main():
     args = parser.parse_args()
 
     folder = Path(__file__).resolve().parent.parent / "space"
-    for filename in ["README.md", "app.py", "requirements.txt"]:
+    for filename in ["README.md", "app.py", "qwen_inference.py", "requirements.txt"]:
         if not (folder / filename).is_file():
             raise FileNotFoundError(folder / filename)
 
